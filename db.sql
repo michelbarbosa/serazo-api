@@ -34,16 +34,6 @@ CREATE TABLE `empresas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `empresas`
---
-
-LOCK TABLES `empresas` WRITE;
-/*!40000 ALTER TABLE `empresas` DISABLE KEYS */;
-INSERT INTO `empresas` VALUES (1,'Google','google@google.com','123');
-/*!40000 ALTER TABLE `empresas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `historico`
 --
 
