@@ -36,7 +36,7 @@ public class Empresa {
 		this.senha = senha;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public String getNome() {

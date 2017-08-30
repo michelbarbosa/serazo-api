@@ -1,5 +1,7 @@
 package br.com.fiap.serazo.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +25,15 @@ public class EmpresasController {
 	}
 	
 	@PostMapping
-	public String cadastrar(@RequestBody Empresa empresa) {
-		repository.save(empresa);
-		return "OK";
+	public String cadastrar(@RequestBody Empresa empresa, HttpServletResponse response) {
+		try {
+			repository.save(empresa);
+			response.setStatus(HttpServletResponse.SC_CREATED);
+			return "";
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return e.getMessage();
+		}
 	}
 	
 }
