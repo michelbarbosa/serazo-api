@@ -1,12 +1,12 @@
 package br.com.fiap.serazo.model;
-public class Login {
+public class LoginDto {
 		private String login;
 		private String senha;
 		
-		public Login() {
+		public LoginDto() {
 		}
 		
-		public Login(String login, String senha) {
+		public LoginDto(String login, String senha) {
 			super();
 			this.login = login;
 			this.senha = senha;

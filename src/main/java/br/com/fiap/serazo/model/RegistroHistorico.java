@@ -19,20 +19,9 @@ public class RegistroHistorico {
 	@Column(nullable = false, length = 11)
 	private String cpf;
 	
-	@Column(nullable = false)
-	private int score;
-	
-	public RegistroHistorico(Empresa empresa, String cpf, int score) {
+	public RegistroHistorico(Empresa empresa, String cpf) {
 		this.empresa = empresa;
 		this.cpf = cpf;
-		this.score = score;
-	}
-	
-	public RegistroHistorico(int id, Empresa empresa, String cpf, int score) {
-		this.id = id;
-		this.empresa = empresa;
-		this.cpf = cpf;
-		this.score = score;
 	}
 	
 	public int getId() {
@@ -45,6 +34,16 @@ public class RegistroHistorico {
 		return cpf;
 	}
 	public int getScore() {
-		return score;
+		int score = 0;
+		int multiplier = 1;
+		for (int i = 0; i < cpf.length(); ++i) {
+			char c = cpf.charAt(i);
+			if (!Character.isDigit(c)) {
+				continue;
+			}
+			int digit = Character.getNumericValue(c);
+			score += Math.pow(digit, multiplier++);
+		}
+		return score % 1001;
 	}
 }
