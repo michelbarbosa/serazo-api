@@ -2,6 +2,8 @@ package br.com.fiap.serazo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 @Table(name = "historico")
 public class RegistroHistorico {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
 	@JoinColumn(name = "id_empresa", nullable = false)
@@ -19,12 +22,15 @@ public class RegistroHistorico {
 	@Column(nullable = false, length = 11)
 	private String cpf;
 	
+	public RegistroHistorico() {
+	}
+	
 	public RegistroHistorico(Empresa empresa, String cpf) {
 		this.empresa = empresa;
 		this.cpf = cpf;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public Empresa getEmpresa() {
