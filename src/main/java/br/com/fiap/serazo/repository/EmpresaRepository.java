@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
 	Empresa findByLoginAndSenha(String login, String senha);
-	Empresa findByLogin(String login);
 }
