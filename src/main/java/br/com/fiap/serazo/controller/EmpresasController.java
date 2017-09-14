@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.serazo.model.Empresa;
-import br.com.fiap.serazo.model.LoginDto;
 import br.com.fiap.serazo.repository.EmpresaRepository;
 
 @RestController
@@ -21,11 +20,6 @@ public class EmpresasController {
 	private EmpresaRepository repository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	@PostMapping(path = "/login")
-	public Empresa login(@RequestBody LoginDto login) {
-		return repository.findByLoginAndSenha(login.getLogin(), login.getSenha());
-	}
 	
 	@PostMapping
 	public String cadastrar(@RequestBody Empresa empresa, HttpServletResponse response) {
