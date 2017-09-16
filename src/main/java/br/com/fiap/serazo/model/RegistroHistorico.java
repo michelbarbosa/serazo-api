@@ -1,5 +1,7 @@
 package br.com.fiap.serazo.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "historico")
@@ -18,16 +22,22 @@ public class RegistroHistorico {
 	@ManyToOne
 	@JoinColumn(name = "id_empresa", nullable = false)
 	private Empresa empresa;
-	
+
 	@Column(nullable = false, length = 11)
 	private String cpf;
+	
+
+	@Column
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+	private Date data;
 	
 	public RegistroHistorico() {
 	}
 	
-	public RegistroHistorico(Empresa empresa, String cpf) {
+	public RegistroHistorico(Empresa empresa, String cpf, Date data) {
 		this.empresa = empresa;
 		this.cpf = cpf;
+		this.data = data;
 	}
 	
 	public Integer getId() {
@@ -51,5 +61,13 @@ public class RegistroHistorico {
 			score += Math.pow(digit, multiplier++);
 		}
 		return score % 1001;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 }

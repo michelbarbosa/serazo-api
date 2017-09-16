@@ -1,5 +1,6 @@
 package br.com.fiap.serazo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,7 @@ public class RegistrosHistoricosController {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return null;
 			}
-			RegistroHistorico registro = new RegistroHistorico(empresa, consulta.getCpf());
+			RegistroHistorico registro = new RegistroHistorico(empresa, consulta.getCpf(), new Date());
 			registroRepo.save(registro);
 			return registro;
 		} catch (Exception e) {
