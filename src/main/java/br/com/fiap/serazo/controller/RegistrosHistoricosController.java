@@ -6,8 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,10 +48,13 @@ public class RegistrosHistoricosController {
 		}
 	}
 	
-	@GetMapping(path = "empresas/{id}/historico")
-	public List<RegistroHistorico> listarHistorico(@PathVariable int id, HttpServletResponse response) {
+	@GetMapping(path = "empresas/historico")
+	public List<RegistroHistorico> listarHistorico(HttpServletResponse response) {
 		try {
-			Empresa empresa = empresaRepo.findOne(id);
+			
+			String login =  SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+			
+			Empresa empresa = empresaRepo.findByLogin(login);
 			if (empresa == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return null;
