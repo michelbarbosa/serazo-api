@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +32,11 @@ public class RegistrosHistoricosController {
 	@PostMapping(path = "/score")
 	public RegistroHistorico consultarScore(@RequestBody ConsultaScoreDto consulta, HttpServletResponse response) {
 		try {
-			Empresa empresa = empresaRepo.findOne(consulta.getIdEmpresa());
+			
+			String login =  SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+			
+			Empresa empresa = empresaRepo.findByLogin(login);
+			
 			if (empresa == null) {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return null;
