@@ -2,6 +2,7 @@ package br.com.fiap.serazo.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.serazo.model.ConsultaScoreDto;
 import br.com.fiap.serazo.model.Empresa;
 import br.com.fiap.serazo.model.RegistroHistorico;
+import br.com.fiap.serazo.model.RegistroHistoricoDto;
 import br.com.fiap.serazo.repository.EmpresaRepository;
 import br.com.fiap.serazo.repository.RegistroHistoricoRepository;
 
@@ -30,7 +32,7 @@ public class RegistrosHistoricosController {
 	private EmpresaRepository empresaRepo;
 	
 	@PostMapping(path = "/score")
-	public RegistroHistorico consultarScore(@RequestBody ConsultaScoreDto consulta, HttpServletResponse response) {
+	public RegistroHistoricoDto consultarScore(@RequestBody ConsultaScoreDto consulta, HttpServletResponse response) {
 		try {
 			
 			String login =  SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -43,7 +45,7 @@ public class RegistrosHistoricosController {
 			}
 			RegistroHistorico registro = new RegistroHistorico(empresa, consulta.getCpf(), new Date());
 			registroRepo.save(registro);
-			return registro;
+			return new RegistroHistoricoDto(registro);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -52,7 +54,7 @@ public class RegistrosHistoricosController {
 	}
 	
 	@GetMapping(path = "empresas/historico")
-	public List<RegistroHistorico> listarHistorico(HttpServletResponse response) {
+	public List<RegistroHistoricoDto> listarHistorico(HttpServletResponse response) {
 		try {
 			
 			String login =  SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
@@ -62,7 +64,11 @@ public class RegistrosHistoricosController {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return null;
 			}
-			return registroRepo.findAllByEmpresa(empresa);
+			return registroRepo.findAllByEmpresa(empresa)
+					.stream()
+					.sorted((left, right) -> right.getData().compareTo(left.getData()))
+					.map(RegistroHistoricoDto::new)
+					.collect(Collectors.toList());
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

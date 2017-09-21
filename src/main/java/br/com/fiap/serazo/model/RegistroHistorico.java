@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name = "historico")
 public class RegistroHistorico {
@@ -28,7 +26,6 @@ public class RegistroHistorico {
 	
 
 	@Column
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private Date data;
 	
 	public RegistroHistorico() {
